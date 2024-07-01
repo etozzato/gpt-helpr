@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'gpt_helpr'
+
+GptHelpr::CLI.start(ARGV)
