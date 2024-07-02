@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gpt_helpr (0.1.2)
+    gpt_helpr (0.1.8)
       fileutils (~> 1.6.0)
       readline (~> 0.0.3)
       shellwords (~> 0.1.0)

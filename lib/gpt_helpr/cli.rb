@@ -7,7 +7,9 @@ module GptHelpr
   class CLI
 
     def self.start(args=[])
+      Dir.chdir(Dir.pwd)
 
+      puts "GptHelpr #{GptHelpr::VERSION} - To help dig your codebase and cook GPT-XX instructions [current directory #{Dir.pwd}]"
       line_numbers = args.include?('-ln') || args.include?('--line-numbers')
 
       if args.include?('-i') || args.include?('--interactive')
@@ -99,6 +101,11 @@ module GptHelpr
 
     def self.interactive_mode(line_numbers = false)
       files = []
+
+      Readline.completion_append_character = nil
+      Readline.completion_proc = -> (input) {
+        Dir[input + '*'].grep(/^#{Regexp.escape(input)}/)
+      }
 
       while true
         begin
