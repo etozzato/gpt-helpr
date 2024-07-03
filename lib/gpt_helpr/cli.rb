@@ -5,11 +5,10 @@ require 'time'
 
 module GptHelpr
   class CLI
-
-    def self.start(args=[])
+    def self.start(args = [])
       Dir.chdir(Dir.pwd)
 
-      puts "GptHelpr #{GptHelpr::VERSION} - To help dig your codebase and cook GPT-XX instructions [current directory #{Dir.pwd}]"
+      puts "== 🏴‍☠️ GptHelpr #{GptHelpr::VERSION} == Helping to dig your codebase and cook GPT-XX instructions [Location: #{Dir.pwd}]"
       line_numbers = args.include?('-ln') || args.include?('--line-numbers')
 
       if args.include?('-i') || args.include?('--interactive')
@@ -17,7 +16,7 @@ module GptHelpr
       else
 
         if args.empty?
-          puts 'Usage: gpt_helpr <file1> <re: instructions> / <file2> <re: instructions> [--f] [--file] [--i] [--interactive] [--ln] [--line-numbers]'
+          puts 'Usage: gpt_helpr <file1> <instructions> / <file2> <instructions> [--f] [--file] [--i] [--interactive] [--ln] [--line-numbers]'
           exit 1
         end
 
@@ -48,6 +47,7 @@ module GptHelpr
         write_to_file(final_output)
       else
         puts final_output
+        puts '(Output copied to clipboard)'
       end
     end
 
@@ -65,7 +65,7 @@ module GptHelpr
       end
 
       content
-    rescue => e
+    rescue StandardError => e
       "Error reading file: #{e.message}"
     end
 
@@ -76,12 +76,12 @@ module GptHelpr
 
         content = process_file(file_path, lines_range, line_numbers)
 
-        output += "#### file source  `#{file_path}`\n"
+        output += "\n==== file source `#{file_path} #{lines_range}`\n"
         output += "```\n"
         output += "#{content}\n"
         output += "```\n\n"
         output += "#{re_text}\n\n"
-        output += "#### end of  `#{file_path}`\n"
+        output += "==== end of `#{file_path}`\n"
         output += "\n"
       end
       output
@@ -96,29 +96,25 @@ module GptHelpr
       timestamp = Time.now.utc.iso8601
       filename = "gpt_#{timestamp}.md"
       File.write(filename, output)
-      puts "Output written to #{filename}"
+      puts "(Output written to #{filename})"
     end
 
-    def self.interactive_mode(line_numbers = false)
+    def self.interactive_mode(_line_numbers = false)
       files = []
 
       Readline.completion_append_character = nil
-      Readline.completion_proc = -> (input) {
-        Dir[input + '*'].grep(/^#{Regexp.escape(input)}/)
-      }
+      Readline.completion_proc = ->(input) { Dir["#{input}*"].grep(/^#{Regexp.escape(input)}/) }
 
-      while true
-        begin
-          file_input = Readline.readline('File Path (optional :start:end): ', true)
-          break if file_input.nil? || file_input.strip.empty?
+      loop do
+        file_input = Readline.readline('File Path (optional :start:end): ', true)
+        break if file_input.nil? || file_input.strip.empty?
 
-          file_path, lines_range = file_input.split(':', 2)
-          re_text = Readline.readline('Instructions: ', true)
+        file_path, lines_range = file_input.split(':', 2)
+        re_text = Readline.readline('Instructions: ', true)
 
-          files << [file_path.strip, re_text.strip, lines_range]
-        rescue Interrupt
-          break
-        end
+        files << [file_path.strip, re_text.strip, lines_range]
+      rescue Interrupt
+        break
       end
 
       files
