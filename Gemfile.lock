@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gpt_helpr (0.2.1)
+    gpt_helpr (0.2.3)
       readline (~> 0.0.3)
 
 GEM

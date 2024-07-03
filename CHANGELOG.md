@@ -19,3 +19,7 @@
 #### 0.2.1 - 2024-07-03
 
 - Just some formatting, linting and Rubocop.yml rules added
+
+#### 0.2.2 - 2024-07-03
+
+- More formatting ...

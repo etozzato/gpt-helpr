@@ -1,15 +1,17 @@
-# GPT_Helpr
+## == 🏴‍☠️ GptHelpr == Helping to dig your codebase and cook GPT-XX instructions
 
-GPT_Helpr is a Ruby gem that provides a command-line tool for generating formatted programming prompts based on the content of specified files. This tool is particularly useful for efficiently sharing code snippets with detailed explanations.
+### What is GptHelpr?
 
-## Features
+It is sometime necessary to provide context and explanations for your code. Instead of manually copying and formatting code snippets, GPT-Helpr automates the process with an interactive cli, generating a well-structured Markdown output, which can be copied to your clipboard or printed to file.
+
+### Features
 
 - **Interactive Mode**: Easily specify file paths and ranges interactively.
 - **Line Numbers**: Option to include line numbers in the output.
 - **Completion Support**: Supports tab completion for file paths.
 - **Output to File**: Option to write the generated output to a file.
 
-## Installation
+### Installation
 
 1. **Add the Gem to Your Gemfile**
    ```ruby
@@ -26,23 +28,23 @@ GPT_Helpr is a Ruby gem that provides a command-line tool for generating formatt
    gem install gpt_helpr
    ```
 
-## Usage
+### Usage
 
-### Basic Usage
+#### Basic Usage
 
 Run the tool in interactive mode:
 ```sh
-gpt_helpr --interactive
+gpt_helpr -i -ln
 ```
 
-### Command-Line Arguments
+#### Command-Line Arguments
 
 You can also provide file paths and instructions directly via command-line arguments:
 ```sh
-gpt_helpr <file1> <re: instructions> / <file2> <re: instructions>
+gpt_helpr <file1> <instructions> / <file2> <instructions>
 ```
 
-### Options
+#### Options
 
 - `--interactive` or `-i`: Run the tool in interactive mode.
 - `--file` or `-f`: Write the output to a file.
@@ -52,41 +54,56 @@ gpt_helpr <file1> <re: instructions> / <file2> <re: instructions>
 
 #### Interactive Mode
 
-1. Run the tool:
+1. Run the tool in interactive mode:
+   ```sh
+   # note lmk is an alias for gpt_helpr -i -ln
+   $ lmk
+   == 🏴‍☠️ GptHelpr 0.2.2 == Helping to dig your codebase and cook GPT-XX instructions [current directory /Users/etozzato/WorkSpace/_AINZ/pizzatarians.com]
 
-```
-➜ gpt_helpr -i -ln
-File path (optional :start:end): TAB ->
-Capfile                   INSTALL.md                REVISION                  bin
-Gemfile                   Procfile                  Rakefile                  config
-Gemfile.lock              Procfile.dev              VERSION                   config.ru
-Guardfile                 README.md                 app                       db
+   File Path (optional :start:end): TAB ->
+   favicon.ico                 hey.md                      js                          random-acts-of-pizza.md
+   _config.yml                 _site                       draft                       fonts
+   images                      kneading-baking-academy.md  _exe                        academy
+   favicon.gif                 hands-in-dough.md           index.md                    parties-and-events.md
 
-File path (optional :start:end): bin/ TAB ->
-bin/bundle         bin/db-backup.sh   bin/db-restore.sh  bin/gpt_helpr         bin/rails          bin/rake           bin/rubocop        bin/s3_sync.sh     bin/setup          bin/update
+   File Path (optional :start:end): hey.md 1:22
+   Instructions: can you improve this text? Do you see any issues with the template?
+   File Path (optional :start:end):
 
-File path (optional :start:end): bin/gpt_helpr:9:14
-Instructions: can you explain these lines?
-File path (optional :start:end):
-```
+   # this is the generated output (also copied to the clipboard)
+   ==== file source  `hey.md 1:22`
 
-2. The output will be:
-```
-   #### file source  `bin/gpt_helpr`
-   9:
-   10: Readline.completion_append_character = nil
-   11: Readline.completion_proc = -> (input) {
-   12:   Dir[input+'*'].grep(/^#{Regexp.escape(input)}/)
-   13: }
-   14:
+   1: ---
+   2: title: Hey, hello!
+   3: layout: default
+   4: ---
+   5:
+   6: # {{ page.title }}
+   7: ----
+   8:
+   9: <div class="row">
+   10:   <div class="col-md-12">
+   11:     <p class='justin'>
+   12:       Nice to meet you, I am *Mek*!
+   13:     </p>
+   14:     <p class='listo'>
+   15:       I am a self-proclaimed pizza guru and I am here to teach & learn. Originally from Venice, Italy you can find me in San Diego, CA.
+   16:     </p>
+   17:     <p class='listo'>
+   18:       In my spare time, I write code @ PlayStation!
+   19:     </p>
+   20:   </div>
+   21: </div>
+   22:
 
-   can you explain these lines?
+   can you improve this text? Do you see any issues with the template?
 
-   #### end of  `bin/gpt_helpr`
-```
-3. You can add more files and instructions in the same way.
+   ==== end of  `hey.md`
+   ```
 
-4. The output will be also copied to the clipboard!
+2. You can add more files and instructions in the same way.
+
+3. Profit!
 
 #### Command-Line Mode
 
@@ -99,16 +116,6 @@ File path (optional :start:end):
    ```sh
    gpt_helpr app/controllers/pos_controller.rb:10:20 "Describe the controller logic" / app/views/pos/index.html.erb "Explain the view template" --file
    ```
-
-## Why GPT_Helpr?
-
-GPT_Helpr is designed to save time and effort when sharing code snippets. It's often necessary to provide context and explanations for the code. Instead of manually copying and formatting code snippets, GPT_Helpr automates the process, generating well-structured Markdown output.
-
-This can be useful for:
-
-- **Creating Documentation**: Quickly generate descriptions of code segments for documentation.
-- **Sharing Code**: Share specific parts of your codebase with clear descriptions.
-- **Teaching and Learning**: Provide examples and explanations of code in a consistent format.
 
 ## Contributing
 
